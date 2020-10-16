@@ -17,6 +17,7 @@
     "@types/react-dom": "^16.9.0",
     "axios": "^0.20.0",
     "date-fns": "^2.16.1",
+    "formsy-react": "^2.2.1",
     "jwt-decode": "^3.0.0",
     "moment": "^2.29.1",
     "notistack": "^1.0.1",
