@@ -64,7 +64,7 @@ const ConNotFound = ({ history }: RouteComponentProps) => {
           size="large"
           color="primary"
           fullWidth
-          onClick={() => redirectTo('/orders')}
+          onClick={() => redirectTo('/')}
         >
           {ScreenNotFound.GO_BACK_HOME}
         </Button>

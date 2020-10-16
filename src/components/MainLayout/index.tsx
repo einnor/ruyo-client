@@ -25,7 +25,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
-import LogoImage from '../../../public/logo.png';
+import LogoImage from '../../assets/images/logo.png';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,9 +41,11 @@ const useStyles = makeStyles((theme) => ({
       height: '100vh',
     },
   },
+  toolbar: {
+    justifyContent: 'space-between',
+  },
   logo: {
-    width: theme.spacing(5),
-    height: theme.spacing(5.5),
+    width: theme.spacing(25),
   },
   whiteColor: {
     color: theme.palette.primary.contrastText,
@@ -106,7 +108,7 @@ const MainLayout = ({ children, history }: IProps) => {
     <React.Fragment>
       <AppBar position="fixed">
         <Container style={{ paddingRight: 0, paddingLeft: 0 }}>
-          <Toolbar>
+          <Toolbar className={classes.toolbar}>
             <Hidden mdUp>
               <IconButton
                 color="inherit"
@@ -122,12 +124,6 @@ const MainLayout = ({ children, history }: IProps) => {
               alt="Logo"
               className={classes.logo}
             />
-            <Button
-              className={classes.whiteColor}
-              onClick={() => redirectTo('/')}
-            >
-              Ruyo
-            </Button>
             <div className={classes.menuWrapper}>
               <Hidden smDown implementation="css">
                 <Typography component="span">John Doe</Typography>
@@ -163,7 +159,7 @@ const MainLayout = ({ children, history }: IProps) => {
         <Hidden mdUp implementation="js">
           <Drawer
             variant="temporary"
-            anchor="right"
+            anchor="left"
             open={mobileOpen}
             onClose={handleDrawerToggle}
           >
