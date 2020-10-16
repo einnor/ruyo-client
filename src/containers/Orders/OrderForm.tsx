@@ -66,10 +66,10 @@ const OrderForm = ({
     isFormValid: boolean;
   }>({
     form: {
-      title: order ? order.title! : '',
-      bookingDate: order ? order.bookingDate! : '',
-      address: order ? order.bookingDate! : '',
-      customer: order ? order.bookingDate! : '',
+      title: order ? order.title : '',
+      bookingDate: order ? order.bookingDate : '',
+      address: order ? order.bookingDate : '',
+      customer: order ? order.bookingDate : '',
     },
     isFormValid: false,
   });
@@ -136,7 +136,7 @@ const OrderForm = ({
           type="text"
           onChange={onChange}
           label="Title*"
-          value={title!}
+          value={title}
           validations={{ isRequired: true }}
           validationErrors={{
             isRequired: 'Title is required',
@@ -157,7 +157,7 @@ const OrderForm = ({
           type="text"
           onChange={onChange}
           label="Address*"
-          value={address!}
+          value={address}
           validations={{ isRequired: true }}
           validationErrors={{ isRequired: 'This field is required' }}
           className={classes.formField}

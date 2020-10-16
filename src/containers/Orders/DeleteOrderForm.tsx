@@ -9,6 +9,7 @@ import {
 import CloseIcon from '@material-ui/icons/Close';
 import { makeStyles } from '@material-ui/core/styles';
 import { ScreenOrders } from 'i18n/en';
+import { IOrder } from 'types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -74,7 +75,7 @@ const DeleteOrderForm = ({
       </AppBar>
       <Typography variant="body2" align="left" color="textPrimary">
         {ScreenOrders.DELETE_DESCRIPTION}
-        &nbsp; ({order?.name})
+        &nbsp; ({order.title})
       </Typography>
       <div className={classes.buttonWrapper}>
         <Button
