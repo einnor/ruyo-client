@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Con404 = ({ history }: RouteComponentProps) => {
+const ConNotFound = ({ history }: RouteComponentProps) => {
   const classes = useStyles();
 
   const redirectTo = (path: string) => {
@@ -73,4 +73,4 @@ const Con404 = ({ history }: RouteComponentProps) => {
   );
 };
 
-export default withRouter(Con404);
+export default withRouter(ConNotFound);
