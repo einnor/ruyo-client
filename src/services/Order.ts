@@ -5,8 +5,8 @@ export default class Order {
   public static async fetchAll() {
     try {
       // TODO
-      // const response = await axios.get('/orders');
-      // return Api.handleResponseData(response);
+      const response = await axios.get('/orders');
+      return Api.handleResponseData(response);
     } catch (error) {
       return Api.handleResponseData(error.response);
     }
