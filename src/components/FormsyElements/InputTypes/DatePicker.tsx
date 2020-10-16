@@ -8,18 +8,32 @@ import {
   KeyboardDatePicker,
 } from '@material-ui/pickers';
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
+import { format } from 'date-fns';
 
 interface IProps {
+  name: string;
   label?: string;
+  value?: string;
+  className?: string;
+  onChange?: (name: string, date: MaterialUiPickersDate) => void;
 }
 
-const DatePicker = ({ label = 'Date picker dialog' }: IProps) => {
+const DatePicker = ({
+  name,
+  label = 'Date picker dialog',
+  value,
+  className,
+  onChange,
+}: IProps) => {
   const [selectedDate, setSelectedDate] = React.useState<MaterialUiPickersDate>(
-    moment(),
+    value ? moment(value) : moment(),
   );
 
   const handleDateChange = (date: MaterialUiPickersDate) => {
     setSelectedDate(date);
+    if (onChange) {
+      onChange(name, date);
+    }
   };
 
   return (
@@ -36,6 +50,7 @@ const DatePicker = ({ label = 'Date picker dialog' }: IProps) => {
         KeyboardButtonProps={{
           'aria-label': 'change date',
         }}
+        className={className}
         fullWidth
       />
     </MuiPickersUtilsProvider>

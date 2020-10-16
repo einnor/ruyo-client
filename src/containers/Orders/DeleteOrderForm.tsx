@@ -36,7 +36,7 @@ interface IProps {
   isLoading: boolean;
   id: string;
   onToggleDrawer?: () => void;
-  order: any;
+  order: IOrder;
 }
 
 const DeleteOrderForm = ({
