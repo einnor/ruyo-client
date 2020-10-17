@@ -94,4 +94,52 @@ describe('Orders - Actions', () => {
       expect(actionCreator).toEqual(expectedAction);
     });
   });
+
+  describe('Update Order', () => {
+    it('should update an order by id', () => {
+      const id = '1';
+      const order = {
+        id: '1',
+        title: 'Test - Updated',
+        bookingDate: '12/12/2020',
+        address: '86-10300, Kerugoya',
+        customer: 'John Doe',
+      };
+      const expectedAction = {
+        type: actions.UPDATE_ORDER_REQUEST,
+        payload: { id, order },
+      };
+
+      const actionCreator = actions.updateOrderRequest(id, order);
+      expect(actionCreator).toEqual(expectedAction);
+    });
+
+    it('should return payload on success', () => {
+      const payload: Order = {
+        id: '1',
+        title: 'Test - Updated',
+        bookingDate: '12/12/2020',
+        address: '86-10300, Kerugoya',
+        customer: 'John Doe',
+      };
+      const expectedAction = {
+        type: actions.UPDATE_ORDER_SUCCESS,
+        payload: payload,
+      };
+
+      const actionCreator = actions.updateOrderSuccess(payload);
+      expect(actionCreator).toEqual(expectedAction);
+    });
+
+    it('should return error on failure', () => {
+      const expectedAction = {
+        type: actions.UPDATE_ORDER_FAILURE,
+        payload: { error },
+        error: true,
+      };
+
+      const actionCreator = actions.updateOrderFailure(error);
+      expect(actionCreator).toEqual(expectedAction);
+    });
+  });
 });
