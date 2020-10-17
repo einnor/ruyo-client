@@ -13,13 +13,12 @@ import { IOrder } from 'types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: '100%',
     padding: theme.spacing(2),
   },
   appBar: {
     backgroundColor: theme.palette.primary.contrastText,
     margin: '-16px 0 20px -20px',
-    width: 'calc(100% + 40px)',
+    width: 'calc(100% + 36px)',
   },
   title: {
     marginBottom: theme.spacing(2),
@@ -84,6 +83,7 @@ const DeleteOrderForm = ({
           onClick={() => onSubmit(id)}
           disabled={isLoading}
           color="secondary"
+          size="large"
         >
           {ScreenOrders.DELETE_BUTTON_LABEL}
         </Button>

@@ -19,13 +19,12 @@ import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: '100%',
     padding: theme.spacing(2),
   },
   appBar: {
     backgroundColor: theme.palette.primary.contrastText,
     margin: '-16px 0 20px -20px',
-    width: 'calc(100% + 40px)',
+    width: 'calc(100% + 36px)',
   },
   title: {
     marginBottom: theme.spacing(2),
@@ -33,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
   formField: {
     marginBottom: theme.spacing(2),
+    width: '100%',
   },
   buttonWrapper: {
     marginTop: theme.spacing(2),
@@ -68,8 +68,8 @@ const OrderForm = ({
     form: {
       title: order ? order.title : '',
       bookingDate: order ? order.bookingDate : '',
-      address: order ? order.bookingDate : '',
-      customer: order ? order.bookingDate : '',
+      address: order ? order.address : '',
+      customer: order ? order.customer : '',
     },
     isFormValid: false,
   });
@@ -177,6 +177,7 @@ const OrderForm = ({
             variant="outlined"
             disabled={!isFormValid || isLoading}
             color="primary"
+            size="large"
           >
             {id
               ? ScreenOrders.EDIT_BUTTON_LABEL

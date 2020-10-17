@@ -44,6 +44,12 @@ const useStyles = makeStyles((theme) => ({
   toolbar: {
     justifyContent: 'space-between',
   },
+  rightToolbar: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+  },
   logo: {
     width: theme.spacing(25),
   },
@@ -63,7 +69,6 @@ const useStyles = makeStyles((theme) => ({
     width: 250,
   },
   main: {
-    height: 'calc(100% - 40px)',
     [theme.breakpoints.down('sm')]: {
       padding: theme.spacing(0),
       height: '100%',
@@ -109,50 +114,52 @@ const MainLayout = ({ children, history }: IProps) => {
       <AppBar position="fixed">
         <Container style={{ paddingRight: 0, paddingLeft: 0 }}>
           <Toolbar className={classes.toolbar}>
-            <Hidden mdUp>
-              <IconButton
-                color="inherit"
-                aria-label="menu"
-                onClick={handleDrawerToggle}
-              >
-                <MenuIcon />
-              </IconButton>
-            </Hidden>
-            <Avatar
-              variant="square"
-              src={LogoImage}
-              alt="Logo"
-              className={classes.logo}
-            />
+            <div className={classes.rightToolbar}>
+              <Hidden mdUp>
+                <IconButton
+                  color="inherit"
+                  aria-label="menu"
+                  onClick={handleDrawerToggle}
+                >
+                  <MenuIcon />
+                </IconButton>
+              </Hidden>
+              <Avatar
+                variant="square"
+                src={LogoImage}
+                alt="Logo"
+                className={classes.logo}
+              />
+            </div>
             <div className={classes.menuWrapper}>
               <Hidden smDown implementation="css">
                 <Typography component="span">John Doe</Typography>
-                <IconButton
-                  aria-label="account of current user"
-                  aria-controls="menu-appbar"
-                  aria-haspopup="true"
-                  onClick={handleMenu}
-                  color="inherit"
-                >
-                  <AccountCircleOutlined />
-                </IconButton>
-                <Menu
-                  anchorEl={anchorEl}
-                  anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                  keepMounted
-                  transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                  }}
-                  open={open}
-                  onClose={handleClose}
-                >
-                  <MenuItem onClick={logout}>Sign Out</MenuItem>
-                </Menu>
               </Hidden>
+              <IconButton
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleMenu}
+                color="inherit"
+              >
+                <AccountCircleOutlined />
+              </IconButton>
+              <Menu
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={open}
+                onClose={handleClose}
+              >
+                <MenuItem onClick={logout}>Sign Out</MenuItem>
+              </Menu>
             </div>
           </Toolbar>
         </Container>

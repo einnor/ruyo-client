@@ -1,5 +1,5 @@
 import 'date-fns';
-import React from 'react';
+import React, { Fragment } from 'react';
 import moment from 'moment';
 import MomentUtils from '@date-io/moment';
 import { withFormsy } from 'formsy-react';
@@ -7,14 +7,16 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
+import { FormControl, FormHelperText } from '@material-ui/core';
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
-import { format } from 'date-fns';
 
 interface IProps {
   name: string;
   label?: string;
   value?: string;
   className?: string;
+  isPristine?: boolean;
+  isValid?: string;
   onChange?: (name: string, date: MaterialUiPickersDate) => void;
 }
 
@@ -23,6 +25,8 @@ const DatePicker = ({
   label = 'Date picker dialog',
   value,
   className,
+  isPristine,
+  isValid,
   onChange,
 }: IProps) => {
   const [selectedDate, setSelectedDate] = React.useState<MaterialUiPickersDate>(
@@ -37,23 +41,32 @@ const DatePicker = ({
   };
 
   return (
-    <MuiPickersUtilsProvider utils={MomentUtils}>
-      <KeyboardDatePicker
-        margin="normal"
-        label={label}
-        variant="inline"
-        inputVariant="outlined"
-        format="dddd, MMMM Do YYYY"
-        value={selectedDate}
-        onChange={handleDateChange}
-        showTodayButton={true}
-        KeyboardButtonProps={{
-          'aria-label': 'change date',
-        }}
-        className={className}
-        fullWidth
-      />
-    </MuiPickersUtilsProvider>
+    <Fragment>
+      <MuiPickersUtilsProvider utils={MomentUtils}>
+        <KeyboardDatePicker
+          margin="normal"
+          animateYearScrolling
+          error={!isPristine && !isValid}
+          label={label}
+          variant="inline"
+          inputVariant="outlined"
+          format="dddd, MMMM Do YYYY"
+          value={selectedDate}
+          onChange={handleDateChange}
+          showTodayButton
+          KeyboardButtonProps={{
+            'aria-label': 'change date',
+          }}
+          className={className}
+          fullWidth
+        />
+      </MuiPickersUtilsProvider>
+      {!isPristine && !isValid ? (
+        <FormHelperText error={!isPristine && !isValid}>
+          {isPristine ? null : 'Error'}
+        </FormHelperText>
+      ) : null}
+    </Fragment>
   );
 };
 

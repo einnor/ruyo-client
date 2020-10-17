@@ -52,10 +52,8 @@ const useStyles = makeStyles((theme) => ({
   },
   footerActions: {
     position: 'absolute',
-    bottom: 0,
-    left: 0,
-    width: '100%',
-    padding: theme.spacing(2),
+    bottom: theme.spacing(2),
+    width: 'calc(100% - 32px)',
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'flex-end',

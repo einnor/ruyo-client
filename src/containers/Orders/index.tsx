@@ -15,15 +15,15 @@ import { IOrder } from 'types';
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.primary.contrastText,
-    height: '100vh',
-    minWidth: '100vw',
+    height: '100%',
+    minWidth: '100%',
     paddingTop: theme.spacing(8),
     paddingLeft: theme.spacing(0),
     paddingRight: theme.spacing(0),
     overflowY: 'scroll',
     [theme.breakpoints.down('sm')]: {
       padding: theme.spacing(0),
-      height: '100vh',
+      height: '100%',
     },
   },
   toolbar: {
@@ -48,12 +48,7 @@ const useStyles = makeStyles((theme) => ({
     width: 250,
   },
   main: {
-    height: 'calc(100% - 40px)',
-    [theme.breakpoints.down('sm')]: {
-      padding: theme.spacing(0),
-      height: '100%',
-    },
-    overflowY: 'scroll',
+    margin: theme.spacing(0),
   },
 }));
 
@@ -93,18 +88,18 @@ const Orders = ({ history }: RouteComponentProps) => {
 
   const onUpdateOrder = (id: string, payload: IOrder) => {
     // TODO
-    return showAlert({
-      message: 'Order has been successfully updated',
-      variant: 'success',
-    });
+    // return showAlert({
+    //   message: 'Order has been successfully updated',
+    //   variant: 'success',
+    // });
   };
 
   const onDeleteOrderConfirm = (id: string) => {
     // TODO
-    return showAlert({
-      message: 'Order has been successfully deleted',
-      variant: 'success',
-    });
+    // return showAlert({
+    //   message: 'Order has been successfully deleted',
+    //   variant: 'success',
+    // });
   };
 
   const redirectTo = (path: string) => {
@@ -115,10 +110,10 @@ const Orders = ({ history }: RouteComponentProps) => {
 
   const onCreateOrder = (payload: IOrder) => {
     // TODO
-    return showAlert({
-      message: 'Order has been successfully created',
-      variant: 'success',
-    });
+    // return showAlert({
+    //   message: 'Order has been successfully created',
+    //   variant: 'success',
+    // });
   };
 
   const headers = ['id', 'title', 'bookingDate', 'address', 'customer'];
@@ -139,7 +134,7 @@ const Orders = ({ history }: RouteComponentProps) => {
         <Typography variant="h4" gutterBottom>
           {ScreenOrders.TITLE}
         </Typography>
-        <Grid container spacing={3}>
+        <Grid container spacing={3} className={classes.main}>
           <Grid item xs={12} sm={12} md={8}>
             <TabularListing
               title={ScreenOrders.TITLE}
@@ -174,7 +169,7 @@ const Orders = ({ history }: RouteComponentProps) => {
           ) : drawerComponent === DRAWER_COMPONENT.ADD_OR_EDIT ? (
             <OrderForm
               id={selectedOrderId}
-              order={data[0]}
+              order={selectedOrderId ? data[0] : undefined}
               onSave={onCreateOrder}
               onUpdate={onUpdateOrder}
               isLoading={true}
