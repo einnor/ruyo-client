@@ -25,7 +25,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
-import LogoImage from '../../assets/images/logo.png';
+import LogoImage from 'assets/images/logo.png';
 
 const useStyles = makeStyles((theme) => ({
   root: {

@@ -4,10 +4,10 @@ import { Provider } from 'react-redux';
 import { ThemeProvider } from '@material-ui/core';
 import { SnackbarProvider } from 'notistack';
 
-import App from './App';
-import * as serviceWorker from './serviceWorker';
-import configureStore from './store/configureStore';
-import theme from './config/theme';
+import App from 'App';
+import * as serviceWorker from 'serviceWorker';
+import configureStore from 'store/configureStore';
+import theme from 'config/theme';
 
 const store = configureStore();
 
