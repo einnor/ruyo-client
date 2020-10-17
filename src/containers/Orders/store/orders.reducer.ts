@@ -42,6 +42,7 @@ const reducer = (
         isFetching: false,
         error: action.payload,
       };
+
     case GET_ORDER_REQUEST:
       return {
         ...state,
@@ -59,6 +60,32 @@ const reducer = (
         ...state,
         isFetching: false,
         data,
+      };
+
+    case GET_ORDER_FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+        error: action.payload,
+      };
+
+    case UPDATE_ORDER_REQUEST:
+      return {
+        ...state,
+        isFetching: true,
+      };
+
+    case UPDATE_ORDER_SUCCESS:
+      const updatedData = state.data.map((order) => {
+        if (action.payload.id === order.id) {
+          return action.payload;
+        }
+        return order;
+      });
+      return {
+        ...state,
+        isFetching: false,
+        data: updatedData,
       };
 
     case GET_ORDER_FAILURE:
