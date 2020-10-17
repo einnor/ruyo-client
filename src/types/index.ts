@@ -1,3 +1,5 @@
+import { OrdersState } from 'containers/Orders/store/orders.types';
+
 export interface IOrder {
   id?: string;
   title: string;
@@ -19,5 +21,11 @@ export interface FluxStandardAction {
   error?: boolean;
   meta?: any;
 }
+
+type IGlobalState = {
+  orders: OrdersState;
+};
+
+export default IGlobalState;
 
 export type ActionCreator = () => FluxStandardAction;
