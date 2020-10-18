@@ -1,3 +1,4 @@
+import { IOrder } from 'types';
 import axios from '../plugins/axios';
 import Api from './Api';
 
@@ -20,11 +21,10 @@ export default class Order {
     }
   }
 
-  public static async update() {
+  public static async update(id: string, order: IOrder) {
     try {
-      // TODO
-      // const response = await axios.put('/orders', order);
-      // return Api.handleResponseData(response);
+      const response = await axios.put(`/orders/${id}`, order);
+      return Api.handleResponseData(response);
     } catch (error) {
       return Api.handleResponseData(error.response);
     }
