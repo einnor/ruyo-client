@@ -13,7 +13,7 @@ import { ScreenOrders } from 'i18n/en';
 import showAlert from 'components/Alert';
 import { APIError, IOrder } from 'types';
 import * as selectors from './store/orders.selectors';
-import { getOrdersRequest } from './store/orders.actions';
+import { getOrdersRequest, updateOrderRequest } from './store/orders.actions';
 import IGlobalState from 'types';
 
 const useStyles = makeStyles((theme) => ({
@@ -76,11 +76,13 @@ interface IProps {
   data: IOrder[];
   error: APIError | null;
   getOrdersRequest: () => void;
+  updateOrderRequest: (id: string, order: IOrder) => void;
 }
 
 const Orders = ({
   history,
   getOrdersRequest,
+  updateOrderRequest,
   isFetching,
   data,
   error,
@@ -118,19 +120,11 @@ const Orders = ({
   };
 
   const onUpdateOrder = (id: string, payload: IOrder) => {
-    // TODO
-    return showAlert({
-      message: 'Order has been successfully updated',
-      variant: 'success',
-    });
+    updateOrderRequest(id, payload);
   };
 
   const onDeleteOrderConfirm = (id: string) => {
     // TODO
-    return showAlert({
-      message: 'Order has been successfully deleted',
-      variant: 'success',
-    });
   };
 
   const redirectTo = (path: string) => {
@@ -141,10 +135,6 @@ const Orders = ({
 
   const onCreateOrder = (payload: IOrder) => {
     // TODO
-    return showAlert({
-      message: 'Order has been successfully created',
-      variant: 'success',
-    });
   };
 
   const headers = ['id', 'title', 'bookingDate', 'address', 'customer'];
@@ -186,7 +176,7 @@ const Orders = ({
               title={ScreenOrders.TITLE}
               rows={rows}
               headers={headers}
-              actions={['view', 'edit', 'delete']}
+              actions={['view', 'edit']}
               addResourceLabel={ScreenOrders.CREATE_BUTTON_LABEL}
               addResourceCallback={onAddOrder}
               onView={onViewOrder}
@@ -208,7 +198,7 @@ const Orders = ({
             <OrderDeleteForm
               id={selectedOrderId}
               onSubmit={onDeleteOrderConfirm}
-              isLoading={true}
+              isLoading={isFetching}
               order={data[0]}
               onToggleDrawer={onToggleDrawer}
             />
@@ -218,7 +208,7 @@ const Orders = ({
               order={selectedOrderId ? data[0] : undefined}
               onSave={onCreateOrder}
               onUpdate={onUpdateOrder}
-              isLoading={true}
+              isLoading={isFetching}
               onToggleDrawer={onToggleDrawer}
             />
           ) : null}
@@ -236,6 +226,7 @@ const mapStateToProps = (state: IGlobalState) => ({
 
 const mapDispatchToProps = {
   getOrdersRequest,
+  updateOrderRequest,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Orders));
