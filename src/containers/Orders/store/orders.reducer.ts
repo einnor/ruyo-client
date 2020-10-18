@@ -83,6 +83,13 @@ const reducer = (
       };
 
     case UPDATE_ORDER_SUCCESS:
+      if (!state.data.length) {
+        return {
+          ...state,
+          isFetching: false,
+          data: [action.payload],
+        };
+      }
       const updatedData = state.data.map((order) => {
         if (action.payload.id === order.id) {
           return action.payload;
@@ -95,7 +102,7 @@ const reducer = (
         data: updatedData,
       };
 
-    case GET_ORDER_FAILURE:
+    case UPDATE_ORDER_FAILURE:
       return {
         ...state,
         isFetching: false,
