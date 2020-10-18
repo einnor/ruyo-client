@@ -8,6 +8,7 @@ import { FluxStandardAction } from 'types';
 
 export default function* ordersWatcher(): SagaIterator {
   yield takeLatest(actions.GET_ORDERS_REQUEST, getOrdersRequest);
+  yield takeLatest(actions.GET_ORDER_REQUEST, getOrderRequest);
 }
 
 export function* getOrdersRequest(action: FluxStandardAction): SagaIterator {
@@ -20,5 +21,19 @@ export function* getOrdersRequest(action: FluxStandardAction): SagaIterator {
   } catch (error) {
     // Dispatch action for failed request.
     yield put(actions.getOrdersFailure(error));
+  }
+}
+
+export function* getOrderRequest(action: FluxStandardAction): SagaIterator {
+  const { id } = action.payload;
+  try {
+    // Make API request.
+    const payload = yield call(Order.fetchById, id);
+
+    // Dispatch action for successful request.
+    yield put(actions.getOrderSuccess(payload));
+  } catch (error) {
+    // Dispatch action for failed request.
+    yield put(actions.getOrderFailure(error));
   }
 }
