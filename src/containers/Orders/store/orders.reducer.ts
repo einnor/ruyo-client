@@ -50,6 +50,13 @@ const reducer = (
       };
 
     case GET_ORDER_SUCCESS:
+      if (!state.data.length) {
+        return {
+          ...state,
+          isFetching: false,
+          data: [action.payload],
+        };
+      }
       const data = state.data.map((order) => {
         if (action.payload.id === order.id) {
           return action.payload;
