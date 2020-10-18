@@ -1,3 +1,4 @@
+import React, { Fragment } from 'react';
 import { VariantType, useSnackbar } from 'notistack';
 
 interface IProps {
@@ -6,9 +7,10 @@ interface IProps {
 }
 
 const showAlert = ({ message, variant }: IProps) => {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const { enqueueSnackbar } = useSnackbar();
 
-  return enqueueSnackbar(message, { variant });
+  return <Fragment>{enqueueSnackbar(message, { variant })}</Fragment>;
 };
 
 export default showAlert;

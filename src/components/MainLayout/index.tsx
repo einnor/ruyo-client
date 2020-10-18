@@ -1,4 +1,11 @@
-import React, { ReactElement, useState } from 'react';
+import React, {
+  ComponentClass,
+  ElementType,
+  ReactChild,
+  ReactChildren,
+  ReactElement,
+  useState,
+} from 'react';
 import {
   Container,
   AppBar,
@@ -78,7 +85,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface IProps extends RouteComponentProps {
-  children: ReactElement;
+  children: ReactChild | ReactChildren;
 }
 
 const MainLayout = ({ children, history }: IProps) => {

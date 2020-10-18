@@ -1,8 +1,9 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { Typography, Grid, Drawer } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
+import { connect } from 'react-redux';
 
 import OrderForm from './OrderForm';
 import OrderDeleteForm from './DeleteOrderForm';
@@ -10,7 +11,10 @@ import TabularListing from 'components/TabularListing';
 import LoadingIndicator from 'components/LoadingIndicator';
 import { ScreenOrders } from 'i18n/en';
 import showAlert from 'components/Alert';
-import { IOrder } from 'types';
+import { APIError, IOrder } from 'types';
+import * as selectors from './store/orders.selectors';
+import { getOrdersRequest } from './store/orders.actions';
+import IGlobalState from 'types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,6 +54,16 @@ const useStyles = makeStyles((theme) => ({
   main: {
     margin: theme.spacing(0),
   },
+  loadingWrapper: {
+    position: 'relative',
+    backgroundColor: 'transparent',
+    height: 'calc(100vh - 150px)',
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 }));
 
 const DRAWER_COMPONENT = {
@@ -57,11 +71,28 @@ const DRAWER_COMPONENT = {
   DELETE: 'delete',
 };
 
-const Orders = ({ history }: RouteComponentProps) => {
+interface IProps {
+  isFetching: boolean;
+  data: IOrder[];
+  error: APIError | null;
+  getOrdersRequest: () => void;
+}
+
+const Orders = ({
+  history,
+  getOrdersRequest,
+  isFetching,
+  data,
+  error,
+}: IProps & RouteComponentProps) => {
   const classes = useStyles();
   const [selectedOrderId, setSelectedOrderId] = useState<string | null>(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [drawerComponent, setDrawerComponent] = useState<string | null>(null);
+
+  useEffect(() => {
+    getOrdersRequest();
+  }, []);
 
   const onToggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
@@ -88,18 +119,18 @@ const Orders = ({ history }: RouteComponentProps) => {
 
   const onUpdateOrder = (id: string, payload: IOrder) => {
     // TODO
-    // return showAlert({
-    //   message: 'Order has been successfully updated',
-    //   variant: 'success',
-    // });
+    return showAlert({
+      message: 'Order has been successfully updated',
+      variant: 'success',
+    });
   };
 
   const onDeleteOrderConfirm = (id: string) => {
     // TODO
-    // return showAlert({
-    //   message: 'Order has been successfully deleted',
-    //   variant: 'success',
-    // });
+    return showAlert({
+      message: 'Order has been successfully deleted',
+      variant: 'success',
+    });
   };
 
   const redirectTo = (path: string) => {
@@ -110,23 +141,38 @@ const Orders = ({ history }: RouteComponentProps) => {
 
   const onCreateOrder = (payload: IOrder) => {
     // TODO
-    // return showAlert({
-    //   message: 'Order has been successfully created',
-    //   variant: 'success',
-    // });
+    return showAlert({
+      message: 'Order has been successfully created',
+      variant: 'success',
+    });
   };
 
   const headers = ['id', 'title', 'bookingDate', 'address', 'customer'];
-  const data: IOrder[] = [
-    {
-      id: '1',
-      title: 'Test',
-      bookingDate: '12/12/2020',
-      address: '86-10300, Kerugoya',
-      customer: 'John Doe',
-    },
-  ];
+  // const data: IOrder[] = [
+  //   {
+  //     id: '1',
+  //     title: 'Test',
+  //     bookingDate: '12/12/2020',
+  //     address: '86-10300, Kerugoya',
+  //     customer: 'John Doe',
+  //   },
+  // ];
   const rows = data.map((order) => Object.entries(order));
+
+  if (isFetching) {
+    return (
+      <div className={classes.loadingWrapper}>
+        <LoadingIndicator />
+      </div>
+    );
+  }
+
+  if (error) {
+    return showAlert({
+      variant: 'error',
+      message: error.message || 'Oops! Something went wrong.',
+    });
+  }
 
   return (
     <Fragment>
@@ -182,4 +228,14 @@ const Orders = ({ history }: RouteComponentProps) => {
   );
 };
 
-export default withRouter(Orders);
+const mapStateToProps = (state: IGlobalState) => ({
+  isFetching: selectors.getIsFetching(state),
+  data: selectors.getData(state),
+  error: selectors.getError(state),
+});
+
+const mapDispatchToProps = {
+  getOrdersRequest,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Orders));

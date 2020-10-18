@@ -14,7 +14,7 @@ const store = configureStore();
 ReactDOM.render(
   <ThemeProvider theme={theme}>
     <Provider store={store}>
-      <SnackbarProvider maxSnack={3}>
+      <SnackbarProvider maxSnack={3} autoHideDuration={5000}>
         <App />
       </SnackbarProvider>
     </Provider>
