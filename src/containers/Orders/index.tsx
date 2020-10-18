@@ -11,10 +11,10 @@ import TabularListing from 'components/TabularListing';
 import LoadingIndicator from 'components/LoadingIndicator';
 import { ScreenOrders } from 'i18n/en';
 import showAlert from 'components/Alert';
-import { APIError, IOrder } from 'types';
+import IGlobalState, { APIError } from 'types';
 import * as selectors from './store/orders.selectors';
 import { getOrdersRequest, updateOrderRequest } from './store/orders.actions';
-import IGlobalState from 'types';
+import { Order } from './store/orders.types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -73,10 +73,10 @@ const DRAWER_COMPONENT = {
 
 interface IProps {
   isFetching: boolean;
-  data: IOrder[];
+  data: Order[];
   error: APIError | null;
   getOrdersRequest: () => void;
-  updateOrderRequest: (id: string, order: IOrder) => void;
+  updateOrderRequest: (id: string, order: Order) => void;
 }
 
 const Orders = ({
@@ -119,7 +119,7 @@ const Orders = ({
     setIsDrawerOpen(true);
   };
 
-  const onUpdateOrder = (id: string, payload: IOrder) => {
+  const onUpdateOrder = (id: string, payload: Order) => {
     updateOrderRequest(id, payload);
   };
 
@@ -133,20 +133,11 @@ const Orders = ({
 
   const onViewOrder = (id: string) => redirectTo(`/orders/${id}`);
 
-  const onCreateOrder = (payload: IOrder) => {
+  const onCreateOrder = (payload: Order) => {
     // TODO
   };
 
   const headers = ['id', 'title', 'bookingDate', 'address', 'customer'];
-  // const data: IOrder[] = [
-  //   {
-  //     id: '1',
-  //     title: 'Test',
-  //     bookingDate: '12/12/2020',
-  //     address: '86-10300, Kerugoya',
-  //     customer: 'John Doe',
-  //   },
-  // ];
   const rows = data.map((order) => Object.entries(order));
 
   if (isFetching) {

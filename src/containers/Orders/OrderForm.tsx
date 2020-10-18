@@ -8,14 +8,15 @@ import {
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import { makeStyles } from '@material-ui/core/styles';
+import moment from 'moment';
 
 import Formsy, { addValidationRule } from 'formsy-react';
 import TextInput from 'components/FormsyElements/InputTypes/Text';
 import DatePickerInput from 'components/FormsyElements/InputTypes/DatePicker';
 import { isRequired } from 'components/FormsyElements/CustomValidationRules';
-import { IOrder } from 'types';
 import { ScreenOrders } from 'i18n/en';
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
+import { Order } from 'containers/Orders/store/orders.types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,9 +46,9 @@ addValidationRule('isRequired', isRequired);
 
 interface IProps {
   id?: string | null;
-  order?: IOrder;
+  order?: Order;
   onSave: (payload: any) => void;
-  onUpdate?: (id: string, payload: IOrder) => void;
+  onUpdate?: (id: string, payload: Order) => void;
   isLoading: boolean;
   onToggleDrawer?: () => void;
 }
@@ -62,14 +63,27 @@ const OrderForm = ({
 }: IProps) => {
   const classes = useStyles();
   const [state, setState] = useState<{
-    form: IOrder;
+    form: Order;
     isFormValid: boolean;
   }>({
     form: {
       title: order ? order.title : '',
-      bookingDate: order ? order.bookingDate : '',
-      address: order ? order.address : '',
-      customer: order ? order.customer : '',
+      bookingDate: order ? order.bookingDate : Date.now(),
+      address: order
+        ? order.address
+        : {
+            city: '',
+            zip: '',
+            street: '',
+            country: '',
+          },
+      customer: order
+        ? order.customer
+        : {
+            email: '',
+            phone: '',
+            name: '',
+          },
     },
     isFormValid: false,
   });
@@ -77,12 +91,25 @@ const OrderForm = ({
   const { form, isFormValid } = state;
   const { title, bookingDate, address, customer } = form;
 
-  const onChange = (
-    name: string,
-    value: string | number | MaterialUiPickersDate,
-  ) => {
+  const onChange = (name: string, value: string | number) => {
     const { form } = state;
-    setState({ ...state, form: { ...form, [name]: value } });
+    const nameArray = name.split('.');
+    if (nameArray.length === 2) {
+      setState({
+        ...state,
+        form: {
+          ...form,
+          [nameArray[0]]: { ...form[nameArray[0]], [nameArray[1]]: value },
+        },
+      });
+    } else {
+      setState({ ...state, form: { ...form, [name]: value } });
+    }
+  };
+
+  const onDateChange = (name: string, value: MaterialUiPickersDate) => {
+    const { form } = state;
+    setState({ ...state, form: { ...form, [name]: value.unix() } });
   };
 
   const onInvalid = () => {
@@ -93,7 +120,7 @@ const OrderForm = ({
     setState({ ...state, isFormValid: true });
   };
 
-  const onValidSubmit = (model: IOrder) => {
+  const onValidSubmit = (model: Order) => {
     if (id && onUpdate) {
       return onUpdate(id, model);
     }
@@ -146,10 +173,10 @@ const OrderForm = ({
         <DatePickerInput
           name="bookingDate"
           label="Booking Date*"
-          onChange={onChange}
+          onChange={onDateChange}
           validations={{ isRequired: true }}
           validationErrors={{ isRequired: 'This field is required' }}
-          value={bookingDate}
+          value={moment.unix(bookingDate).format('YYYY-MM-DD')}
           className={classes.formField}
         />
         <TextInput
@@ -157,17 +184,43 @@ const OrderForm = ({
           type="text"
           onChange={onChange}
           label="Address*"
-          value={address}
+          value={`${address.street}, (${address.zip}) ${
+            address.city
+          }, ${address.country.toUpperCase()}`}
+          disabled={id ? true : false}
           validations={{ isRequired: true }}
           validationErrors={{ isRequired: 'This field is required' }}
           className={classes.formField}
         />
         <TextInput
-          name="customer"
+          name="customer.name"
           type="text"
           onChange={onChange}
-          label="Customer*"
-          value={customer}
+          label="Name*"
+          value={customer.name}
+          disabled={id ? true : false}
+          validations={{ isRequired: true }}
+          validationErrors={{ isRequired: 'This field is required' }}
+          className={classes.formField}
+        />
+        <TextInput
+          name="customer.email"
+          type="email"
+          onChange={onChange}
+          label="E-mail*"
+          value={customer.email}
+          disabled={id ? true : false}
+          validations={{ isRequired: true }}
+          validationErrors={{ isRequired: 'This field is required' }}
+          className={classes.formField}
+        />
+        <TextInput
+          name="customer.phone"
+          type="tel"
+          onChange={onChange}
+          label="Phone*"
+          value={customer.phone}
+          disabled={id ? true : false}
           validations={{ isRequired: true }}
           validationErrors={{ isRequired: 'This field is required' }}
           className={classes.formField}

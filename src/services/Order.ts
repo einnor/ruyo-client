@@ -1,5 +1,5 @@
-import { IOrder } from 'types';
-import axios from '../plugins/axios';
+import { Order as IOrder } from 'containers/Orders/store/orders.types';
+import axios from 'plugins/axios';
 import Api from './Api';
 
 export default class Order {

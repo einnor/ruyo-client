@@ -20,6 +20,7 @@ interface Props extends FormsyInjectedProps<InputValueType> {
   className?: string;
   placeholder?: string;
   errorMessage: string;
+  disabled?: boolean;
 }
 
 const TextInput: FunctionComponent<Props> = ({
@@ -37,6 +38,7 @@ const TextInput: FunctionComponent<Props> = ({
   isPristine,
   className,
   placeholder,
+  disabled = false,
 }) => {
   const changeValue = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange(name, event.target.value);
@@ -58,6 +60,7 @@ const TextInput: FunctionComponent<Props> = ({
       helperText={isPristine ? null : errorMessage}
       className={className}
       placeholder={placeholder || ''}
+      disabled={disabled}
     />
   );
 };

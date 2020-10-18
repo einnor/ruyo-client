@@ -9,7 +9,7 @@ import {
 import CloseIcon from '@material-ui/icons/Close';
 import { makeStyles } from '@material-ui/core/styles';
 import { ScreenOrders } from 'i18n/en';
-import { IOrder } from 'types';
+import { Order } from 'containers/Orders/store/orders.types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,7 +36,7 @@ interface IProps {
   isLoading: boolean;
   id: string;
   onToggleDrawer?: () => void;
-  order: IOrder;
+  order: Order;
 }
 
 const DeleteOrderForm = ({
