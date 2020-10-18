@@ -1,9 +1,26 @@
-// import { IGlobalState } from 'types';
+import { OrdersState } from './orders.types';
+import * as selectors from './orders.selectors';
+import { initialState } from './orders.reducer';
 
-import IGlobalState from 'types';
+describe('Orders - Selectors', () => {
+  let state: OrdersState;
 
-export const getIsFetching = ({ orders }: IGlobalState) => orders.isFetching;
+  beforeAll(() => {
+    state = { ...initialState };
+  });
 
-export const getData = ({ orders }: IGlobalState) => orders.data;
+  it('should return isFetching', () => {
+    const isFetching = selectors.getIsFetching({ orders: state });
+    expect(isFetching).toEqual(state.isFetching);
+  });
 
-export const getError = ({ orders }: IGlobalState) => orders.error;
+  it('should return image url', () => {
+    const data = selectors.getData({ orders: state });
+    expect(data).toEqual(state.data);
+  });
+
+  it('should return error', () => {
+    const error = selectors.getError({ orders: state });
+    expect(error).toEqual(state.error);
+  });
+});
