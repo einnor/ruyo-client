@@ -1,22 +1,14 @@
-import React, { Fragment, useState } from 'react';
-import {
-  Typography,
-  AppBar,
-  Toolbar,
-  IconButton,
-  Button,
-} from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
+import React, { useState } from 'react';
+import { Typography, AppBar, Toolbar, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import moment from 'moment';
 
 import Formsy, { addValidationRule } from 'formsy-react';
 import TextInput from 'components/FormsyElements/InputTypes/Text';
-import DatePickerInput from 'components/FormsyElements/InputTypes/DatePicker';
-import { isRequired } from 'components/FormsyElements/CustomValidationRules';
-import { ScreenOrders } from 'i18n/en';
-import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
-import { Order } from 'containers/Orders/store/orders.types';
+import {
+  isRequired,
+  isEmailValid,
+} from 'components/FormsyElements/CustomValidationRules';
+import { ScreenSignIn } from 'i18n/en';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,73 +35,37 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 addValidationRule('isRequired', isRequired);
+addValidationRule('isEmailValid', isEmailValid);
 
 interface IProps {
-  id?: string | null;
-  order?: Order;
-  onSave: (payload: any) => void;
-  onUpdate?: (id: string, payload: Order) => void;
+  onSubmit: (email: string, password: string) => void;
   isLoading: boolean;
-  onToggleDrawer?: () => void;
 }
 
-const OrderForm = ({
-  id,
-  order,
-  onSave,
-  onUpdate,
-  isLoading = false,
-  onToggleDrawer = () => {},
-}: IProps) => {
+interface SignInForm {
+  email: string;
+  password: string;
+}
+
+const SignInForm = ({ onSubmit, isLoading = false }: IProps) => {
   const classes = useStyles();
   const [state, setState] = useState<{
-    form: Order;
+    form: SignInForm;
     isFormValid: boolean;
   }>({
     form: {
-      title: order ? order.title : '',
-      bookingDate: order ? order.bookingDate : Date.now(),
-      address: order
-        ? order.address
-        : {
-            city: '',
-            zip: '',
-            street: '',
-            country: '',
-          },
-      customer: order
-        ? order.customer
-        : {
-            email: '',
-            phone: '',
-            name: '',
-          },
+      email: '',
+      password: '',
     },
     isFormValid: false,
   });
 
   const { form, isFormValid } = state;
-  const { title, bookingDate, address, customer } = form;
+  const { email, password } = form;
 
   const onChange = (name: string, value: string | number) => {
     const { form } = state;
-    const nameArray = name.split('.');
-    if (nameArray.length === 2) {
-      setState({
-        ...state,
-        form: {
-          ...form,
-          [nameArray[0]]: { ...form[nameArray[0]], [nameArray[1]]: value },
-        },
-      });
-    } else {
-      setState({ ...state, form: { ...form, [name]: value } });
-    }
-  };
-
-  const onDateChange = (name: string, value: MaterialUiPickersDate) => {
-    const { form } = state;
-    setState({ ...state, form: { ...form, [name]: value.unix() } });
+    setState({ ...state, form: { ...form, [name]: value } });
   };
 
   const onInvalid = () => {
@@ -120,11 +76,9 @@ const OrderForm = ({
     setState({ ...state, isFormValid: true });
   };
 
-  const onValidSubmit = (model: Order) => {
-    if (id && onUpdate) {
-      return onUpdate(id, model);
-    }
-    onSave(model);
+  const onValidSubmit = (model: SignInForm) => {
+    const { email, password } = model;
+    onSubmit(email, password);
   };
 
   return (
@@ -140,17 +94,7 @@ const OrderForm = ({
           className="toolbar"
           style={{ display: 'flex', justifyContent: 'space-between' }}
         >
-          <Typography variant="h6">
-            {id ? ScreenOrders.EDIT_TITLE : ScreenOrders.ADD_TITLE}
-          </Typography>
-          <IconButton
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            onClick={onToggleDrawer}
-          >
-            <CloseIcon />
-          </IconButton>
+          <Typography variant="h6">{ScreenSignIn.TITLE}</Typography>
         </Toolbar>
       </AppBar>
       <Formsy
@@ -159,70 +103,26 @@ const OrderForm = ({
         onInvalid={onInvalid}
       >
         <TextInput
-          name="title"
-          type="text"
-          onChange={onChange}
-          label="Title*"
-          value={title}
-          validations={{ isRequired: true }}
-          validationErrors={{
-            isRequired: 'Title is required',
-          }}
-          className={classes.formField}
-        />
-        <DatePickerInput
-          name="bookingDate"
-          label="Booking Date*"
-          onChange={onDateChange}
-          validations={{ isRequired: true }}
-          validationErrors={{ isRequired: 'This field is required' }}
-          value={moment.unix(bookingDate).format('YYYY-MM-DD')}
-          className={classes.formField}
-        />
-        <TextInput
-          name="address"
-          type="text"
-          onChange={onChange}
-          label="Address*"
-          value={`${address.street}, (${address.zip}) ${
-            address.city
-          }, ${address.country.toUpperCase()}`}
-          disabled={id ? true : false}
-          validations={{ isRequired: true }}
-          validationErrors={{ isRequired: 'This field is required' }}
-          className={classes.formField}
-        />
-        <TextInput
-          name="customer.name"
-          type="text"
-          onChange={onChange}
-          label="Name*"
-          value={customer.name}
-          disabled={id ? true : false}
-          validations={{ isRequired: true }}
-          validationErrors={{ isRequired: 'This field is required' }}
-          className={classes.formField}
-        />
-        <TextInput
-          name="customer.email"
+          name="email"
           type="email"
           onChange={onChange}
           label="E-mail*"
-          value={customer.email}
-          disabled={id ? true : false}
-          validations={{ isRequired: true }}
-          validationErrors={{ isRequired: 'This field is required' }}
+          value={email}
+          validations={{ isRequired: true, isEmailValid: true }}
+          validationErrors={{
+            isRequired: 'E-mail is required',
+            isEmailValid: 'E-mail is not valid',
+          }}
           className={classes.formField}
         />
         <TextInput
-          name="customer.phone"
-          type="tel"
+          name="password"
+          type="password"
           onChange={onChange}
-          label="Phone*"
-          value={customer.phone}
-          disabled={id ? true : false}
+          label="Password*"
+          value={password}
           validations={{ isRequired: true }}
-          validationErrors={{ isRequired: 'This field is required' }}
+          validationErrors={{ isRequired: 'Password is required' }}
           className={classes.formField}
         />
         <div className={classes.buttonWrapper}>
@@ -232,9 +132,7 @@ const OrderForm = ({
             color="primary"
             size="large"
           >
-            {id
-              ? ScreenOrders.EDIT_BUTTON_LABEL
-              : ScreenOrders.CREATE_BUTTON_LABEL}
+            {ScreenSignIn.SIGN_IN_BUTTON_LABEL}
           </Button>
         </div>
       </Formsy>
@@ -242,4 +140,4 @@ const OrderForm = ({
   );
 };
 
-export default OrderForm;
+export default SignInForm;
