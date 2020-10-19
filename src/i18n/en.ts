@@ -20,3 +20,9 @@ export const ScreenErrorBoundary = {
   DESCRIPTION: 'Oops! Something went wrong',
   GO_BACK_HOME: 'Return Home',
 };
+
+export const ScreenSignIn = {
+  TITLE: 'Sign In',
+  DESCRIPTION: 'Sign in with your email and your password.',
+  SIGN_IN_BUTTON_LABEL: 'Sign In',
+};
