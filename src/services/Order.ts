@@ -31,9 +31,14 @@ export default class Order {
   public static async update(id: string, order: IOrder) {
     try {
       const token = await getToken();
-      const response = await axios.put(`/orders/${id}`, order, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const { title, bookingDate } = order;
+      const response = await axios.put(
+        `/orders/${id}`,
+        { title, bookingDate },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        },
+      );
       return Api.handleResponseData(response);
     } catch (error) {
       return Api.handleResponseData(error.response);

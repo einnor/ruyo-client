@@ -137,8 +137,6 @@ const Orders = ({
     // TODO
   };
 
-  console.log(data);
-
   const headers = ['id', 'title', 'bookingDate', 'address', 'customer'];
   const rows = data.map((order) => {
     const formattedOrder = {
@@ -177,7 +175,7 @@ const Orders = ({
           {ScreenOrders.TITLE}
         </Typography>
         <Grid container spacing={3} className={classes.main}>
-          <Grid item xs={12} sm={12} md={8}>
+          <Grid item xs={12} sm={12} md={12}>
             <TabularListing
               title={ScreenOrders.TITLE}
               rows={rows}

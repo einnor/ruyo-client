@@ -109,7 +109,7 @@ const OrderForm = ({
 
   const onDateChange = (name: string, value: MaterialUiPickersDate) => {
     const { form } = state;
-    setState({ ...state, form: { ...form, [name]: value.unix() } });
+    setState({ ...state, form: { ...form, bookingDate: value.unix() } });
   };
 
   const onInvalid = () => {
@@ -121,6 +121,7 @@ const OrderForm = ({
   };
 
   const onValidSubmit = (model: Order) => {
+    model.bookingDate = moment(model.bookingDate).unix();
     if (id && onUpdate) {
       return onUpdate(id, model);
     }
@@ -227,6 +228,7 @@ const OrderForm = ({
         />
         <div className={classes.buttonWrapper}>
           <Button
+            type="submit"
             variant="outlined"
             disabled={!isFormValid || isLoading}
             color="primary"
