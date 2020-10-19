@@ -10,6 +10,8 @@ export default class Order {
         .signInWithEmailAndPassword(email, password)
         .then((user) => {
           console.log(user);
+          // TODO
+          // return { token, uid };
           return user;
         })
         .catch((error) => {
