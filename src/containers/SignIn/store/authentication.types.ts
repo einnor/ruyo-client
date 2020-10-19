@@ -11,5 +11,6 @@ export type AuthenticationState = {
   isFetching: boolean;
   data: User;
   token: string | null;
+  uid: string | null;
   error: APIError | null;
 };

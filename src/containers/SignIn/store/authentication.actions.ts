@@ -10,6 +10,10 @@ export const SIGN_OUT_REQUEST: string = 'SIGN_OUT_REQUEST';
 export const SIGN_OUT_SUCCESS: string = 'SIGN_OUT_SUCCESS';
 export const SIGN_OUT_FAILURE: string = 'SIGN_OUT_FAILURE';
 
+export const GET_USER_REQUEST: string = 'GET_USER_REQUEST';
+export const GET_USER_SUCCESS: string = 'GET_USER_SUCCESS';
+export const GET_USER_FAILURE: string = 'GET_USER_FAILURE';
+
 // Actions
 // SIGN IN
 export type SignInRequest = (
@@ -23,11 +27,11 @@ export const signInRequest: SignInRequest = (email, password) => {
   };
 };
 
-export type SignInSuccess = (token: string) => FluxStandardAction;
-export const signInSuccess: SignInSuccess = (token) => {
+export type SignInSuccess = (token: string, uid: string) => FluxStandardAction;
+export const signInSuccess: SignInSuccess = (token, uid) => {
   return {
     type: SIGN_IN_SUCCESS,
-    payload: token,
+    payload: { token, uid },
   };
 };
 
@@ -40,7 +44,7 @@ export const signInFailure: SignInFailure = (error) => {
   };
 };
 
-// SIGN Out
+// SIGN OUT
 export type SignOutRequest = () => FluxStandardAction;
 export const signOutRequest: SignOutRequest = () => {
   return {
@@ -59,6 +63,32 @@ export type SignOutFailure = (error: APIError) => FluxStandardAction;
 export const signOutFailure: SignOutFailure = (error) => {
   return {
     type: SIGN_OUT_FAILURE,
+    payload: { error },
+    error: true,
+  };
+};
+
+// GET USER
+export type GetUserRequest = (uid: string) => FluxStandardAction;
+export const getUserRequest: GetUserRequest = (uid) => {
+  return {
+    type: GET_USER_REQUEST,
+    payload: { uid },
+  };
+};
+
+export type GetUserSuccess = (payload: User) => FluxStandardAction;
+export const getUserSuccess: GetUserSuccess = (payload) => {
+  return {
+    type: GET_USER_SUCCESS,
+    payload: payload,
+  };
+};
+
+export type GetUserFailure = (error: APIError) => FluxStandardAction;
+export const getUserFailure: GetUserFailure = (error) => {
+  return {
+    type: GET_USER_FAILURE,
     payload: { error },
     error: true,
   };
