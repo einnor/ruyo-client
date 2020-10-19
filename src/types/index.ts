@@ -1,3 +1,4 @@
+import { AuthenticationState } from 'containers/Authentication/store/authentication.types';
 import { OrdersState } from 'containers/Orders/store/orders.types';
 
 export interface APIError {
@@ -16,6 +17,7 @@ export interface FluxStandardAction {
 
 type IGlobalState = {
   orders: OrdersState;
+  authentication: AuthenticationState;
 };
 
 export default IGlobalState;

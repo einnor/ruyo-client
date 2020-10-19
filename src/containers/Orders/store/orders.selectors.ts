@@ -1,5 +1,3 @@
-// import { IGlobalState } from 'types';
-
 import IGlobalState from 'types';
 
 export const getIsFetching = ({ orders }: IGlobalState) => orders.isFetching;
