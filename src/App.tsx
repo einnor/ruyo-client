@@ -10,7 +10,7 @@ import PrivateRoute from 'components/PrivateRoute';
 import PublicRoute from 'components/PublicRoute';
 import LoadingIndicator from 'components/LoadingIndicator';
 
-// const SignInPage = lazy(() => import('pages/SignIn'));
+const AuthenticationPage = lazy(() => import('pages/Authentication'));
 const OrdersPage = lazy(() => import('pages/Orders'));
 // const OrderPage = lazy(() => import('./pages/Order'));
 const NotFoundPage = lazy(() => import('pages/NotFound'));
@@ -34,7 +34,7 @@ const App = () => (
       }
     >
       <Switch>
-        {/* <PublicRoute exact path="/sign-in" component={SignInPage} /> */}
+        <PublicRoute exact path="/sign-in" component={AuthenticationPage} />
         <PrivateRoute exact path="/" component={OrdersPage} />
         <PrivateRoute exact path="/orders" component={OrdersPage} />
         {/* <PrivateRoute

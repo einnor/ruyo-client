@@ -4,10 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import Formsy, { addValidationRule } from 'formsy-react';
 import TextInput from 'components/FormsyElements/InputTypes/Text';
-import {
-  isRequired,
-  isEmailValid,
-} from 'components/FormsyElements/CustomValidationRules';
+import { isRequired } from 'components/FormsyElements/CustomValidationRules';
 import { ScreenSignIn } from 'i18n/en';
 
 const useStyles = makeStyles((theme) => ({
@@ -35,7 +32,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 addValidationRule('isRequired', isRequired);
-addValidationRule('isEmailValid', isEmailValid);
 
 interface IProps {
   onSubmit: (email: string, password: string) => void;
@@ -108,10 +104,9 @@ const SignInForm = ({ onSubmit, isLoading = false }: IProps) => {
           onChange={onChange}
           label="E-mail*"
           value={email}
-          validations={{ isRequired: true, isEmailValid: true }}
+          validations={{ isRequired: true }}
           validationErrors={{
             isRequired: 'E-mail is required',
-            isEmailValid: 'E-mail is not valid',
           }}
           className={classes.formField}
         />
@@ -127,10 +122,12 @@ const SignInForm = ({ onSubmit, isLoading = false }: IProps) => {
         />
         <div className={classes.buttonWrapper}>
           <Button
+            type="submit"
             variant="outlined"
             disabled={!isFormValid || isLoading}
             color="primary"
             size="large"
+            fullWidth
           >
             {ScreenSignIn.SIGN_IN_BUTTON_LABEL}
           </Button>

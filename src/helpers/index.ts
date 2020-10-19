@@ -1,13 +1,22 @@
-import decode from 'jwt-decode';
+import firebase from 'services/Firebase';
 
 export const isAuthenticated = () => {
-  const token = localStorage.getItem('token') || '';
-
-  try {
-    decode(token);
-  } catch (err) {
-    return false;
+  const currentUser = firebase.auth().currentUser;
+  if (currentUser) {
+    return true;
   }
+  return false;
+};
 
-  return true;
+export const getToken = async () => {
+  if (!firebase.auth().currentUser) {
+    return '';
+  }
+  const token = await firebase
+    .auth()
+    .currentUser.getIdToken(/* forceRefresh */ true);
+  if (!token) {
+    return '';
+  }
+  return token;
 };

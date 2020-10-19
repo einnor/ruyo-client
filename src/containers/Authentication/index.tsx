@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';
@@ -47,12 +47,20 @@ const Authentication = ({
 }: IProps & RouteComponentProps) => {
   const classes = useStyles();
 
+  useEffect(() => {
+    if (uid) {
+      getUserRequest(uid);
+    }
+  }, [uid]);
+
+  useEffect(() => {
+    if (data && uid) {
+      redirectTo('/');
+    }
+  }, [data]);
+
   const onSignIn = (email: string, password: string) => {
     signInRequest(email, password);
-  };
-
-  const onGetUser = (uid: string) => {
-    getUserRequest(uid);
   };
 
   const redirectTo = (path: string) => {

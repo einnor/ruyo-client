@@ -7,7 +7,7 @@ import {
   MuiPickersUtilsProvider,
   KeyboardDatePicker,
 } from '@material-ui/pickers';
-import { FormControl, FormHelperText } from '@material-ui/core';
+import { FormHelperText } from '@material-ui/core';
 import { MaterialUiPickersDate } from '@material-ui/pickers/typings/date';
 
 interface IProps {
