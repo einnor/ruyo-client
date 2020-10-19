@@ -22,7 +22,8 @@ describe('Authentication - Sagas', () => {
     };
 
     it('should handle a successful request', () => {
-      const expectedResult = { token: 'token', uid: 'uid ' };
+      const uid = 'uid ';
+      const expectedResult = uid;
 
       return expectSaga(sagas.signInRequest, action)
         .provide([
@@ -31,7 +32,7 @@ describe('Authentication - Sagas', () => {
             expectedResult,
           ],
         ])
-        .put(actions.signInSuccess(expectedResult.token, expectedResult.uid))
+        .put(actions.signInSuccess(expectedResult))
         .run();
     });
 

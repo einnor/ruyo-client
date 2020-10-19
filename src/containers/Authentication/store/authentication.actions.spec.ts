@@ -27,14 +27,13 @@ describe('Authentication - Actions', () => {
     });
 
     it('should return payload on success', () => {
-      const token = 'token';
       const uid = '78923ihjd';
       const expectedAction = {
         type: actions.SIGN_IN_SUCCESS,
-        payload: { token, uid },
+        payload: uid,
       };
 
-      const actionCreator = actions.signInSuccess(token, uid);
+      const actionCreator = actions.signInSuccess(uid);
       expect(actionCreator).toEqual(expectedAction);
     });
 

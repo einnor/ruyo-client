@@ -27,11 +27,11 @@ export const signInRequest: SignInRequest = (email, password) => {
   };
 };
 
-export type SignInSuccess = (token: string, uid: string) => FluxStandardAction;
-export const signInSuccess: SignInSuccess = (token, uid) => {
+export type SignInSuccess = (payload: string) => FluxStandardAction;
+export const signInSuccess: SignInSuccess = (payload) => {
   return {
     type: SIGN_IN_SUCCESS,
-    payload: { token, uid },
+    payload,
   };
 };
 

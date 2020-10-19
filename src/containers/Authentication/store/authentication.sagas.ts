@@ -17,7 +17,7 @@ export function* signInRequest(action: FluxStandardAction): SagaIterator {
     const payload = yield call(Authentication.signIn, email, password);
 
     // Dispatch action for successful request.
-    yield put(actions.signInSuccess(payload.token, payload.uid));
+    yield put(actions.signInSuccess(payload));
   } catch (error) {
     // Dispatch action for failed request.
     yield put(actions.signInFailure(error));

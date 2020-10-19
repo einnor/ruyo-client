@@ -8,11 +8,8 @@ export default class Order {
       firebase
         .auth()
         .signInWithEmailAndPassword(email, password)
-        .then((user) => {
-          console.log(user);
-          // TODO
-          // return { token, uid };
-          return user;
+        .then((data) => {
+          return data.user.uid;
         })
         .catch((error) => {
           console.log(error);

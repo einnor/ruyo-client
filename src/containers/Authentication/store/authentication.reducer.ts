@@ -15,7 +15,6 @@ import {
 export const initialState: AuthenticationState = {
   isFetching: false,
   uid: null,
-  token: null,
   data: null,
   error: null,
 };
@@ -35,8 +34,7 @@ const reducer = (
       return {
         ...state,
         isFetching: false,
-        uid: action.payload.uid,
-        token: action.payload.token,
+        uid: action.payload,
       };
 
     case SIGN_IN_FAILURE:
@@ -56,7 +54,6 @@ const reducer = (
       return {
         isFetching: false,
         uid: null,
-        token: null,
         data: null,
         error: null,
       };

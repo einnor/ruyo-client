@@ -22,12 +22,12 @@ describe('Orders - Reducer', () => {
       expect(reduced.isFetching).toEqual(true);
       expect(reduced.error).toBeNull();
       expect(reduced.data).toBeNull();
-      expect(reduced.token).toBeNull();
       expect(reduced.uid).toBeNull();
     });
 
     it('should handle action: SIGN_IN_SUCCESS', () => {
-      const payload = { token: 'token', uid: '78594hriweu' };
+      const uid = '78594hriweu';
+      const payload = uid;
       const action: FluxStandardAction = {
         type: actions.SIGN_IN_SUCCESS,
         payload,
@@ -38,8 +38,7 @@ describe('Orders - Reducer', () => {
       expect(reduced.isFetching).toEqual(false);
       expect(reduced.data).toBeNull();
       expect(reduced.error).toBeNull();
-      expect(reduced.token).toEqual(payload.token);
-      expect(reduced.uid).toEqual(payload.uid);
+      expect(reduced.uid).toEqual(payload);
     });
 
     it('should handle action: SIGN_IN_FAILURE', () => {
@@ -59,7 +58,6 @@ describe('Orders - Reducer', () => {
 
       expect(reduced.isFetching).toEqual(false);
       expect(reduced.data).toBeNull();
-      expect(reduced.token).toBeNull();
       expect(reduced.uid).toBeNull();
       expect(reduced.error).toEqual(payload);
     });
@@ -69,7 +67,6 @@ describe('Orders - Reducer', () => {
     beforeEach(
       () =>
         (state = {
-          token: 'token',
           uid: 'uid',
           data: {
             email,
@@ -98,7 +95,6 @@ describe('Orders - Reducer', () => {
         uid: '5iEm1HvIxubLaiKO4yj0Npmvq0F2',
       });
       expect(reduced.uid).toEqual('uid');
-      expect(reduced.token).toEqual('token');
     });
 
     it('should handle action: SIGN_OUT_SUCCESS', () => {
@@ -110,7 +106,6 @@ describe('Orders - Reducer', () => {
 
       expect(reduced.isFetching).toEqual(false);
       expect(reduced.data).toBeNull();
-      expect(reduced.token).toBeNull();
       expect(reduced.uid).toBeNull();
       expect(reduced.error).toBeNull();
     });
@@ -131,7 +126,6 @@ describe('Orders - Reducer', () => {
       const reduced = ordersReducer(state, action);
 
       expect(reduced.isFetching).toEqual(false);
-      expect(reduced.token).toEqual('token');
       expect(reduced.uid).toEqual('uid');
       expect(reduced.data).toEqual({
         email,
@@ -147,7 +141,6 @@ describe('Orders - Reducer', () => {
     beforeEach(
       () =>
         (state = {
-          token: 'token',
           uid: 'uid',
           data: null,
           isFetching: false,
@@ -164,7 +157,6 @@ describe('Orders - Reducer', () => {
       const reduced = ordersReducer(state, action);
 
       expect(reduced.isFetching).toEqual(true);
-      expect(reduced.token).toEqual('token');
       expect(reduced.uid).toEqual('uid');
       expect(reduced.error).toBeNull();
       expect(reduced.data).toBeNull();
@@ -186,7 +178,6 @@ describe('Orders - Reducer', () => {
       const reduced = ordersReducer(state, action);
 
       expect(reduced.isFetching).toEqual(false);
-      expect(reduced.token).toEqual('token');
       expect(reduced.uid).toEqual('uid');
       expect(reduced.data).toEqual(payload);
       expect(reduced.error).toBeNull();
@@ -208,7 +199,6 @@ describe('Orders - Reducer', () => {
       const reduced = ordersReducer(state, action);
 
       expect(reduced.isFetching).toEqual(false);
-      expect(reduced.token).toEqual('token');
       expect(reduced.uid).toEqual('uid');
       expect(reduced.data).toBeNull();
       expect(reduced.error).toEqual(payload);

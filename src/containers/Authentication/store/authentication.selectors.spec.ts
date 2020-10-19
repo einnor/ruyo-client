@@ -17,11 +17,6 @@ describe('Authentication - Selectors', () => {
     expect(isFetching).toEqual(state.isFetching);
   });
 
-  it('should return token', () => {
-    const token = selectors.getToken({ authentication: state } as IGlobalState);
-    expect(token).toEqual(state.token);
-  });
-
   it('should return uid', () => {
     const uid = selectors.getUID({ authentication: state } as IGlobalState);
     expect(uid).toEqual(state.uid);

@@ -6,9 +6,6 @@ export const getIsFetching = ({ authentication }: IGlobalState) =>
 export const getData = ({ authentication }: IGlobalState) =>
   authentication.data;
 
-export const getToken = ({ authentication }: IGlobalState) =>
-  authentication.token;
-
 export const getUID = ({ authentication }: IGlobalState) => authentication.uid;
 
 export const getError = ({ authentication }: IGlobalState) =>
