@@ -140,7 +140,20 @@ const Orders = ({
   console.log(data);
 
   const headers = ['id', 'title', 'bookingDate', 'address', 'customer'];
-  const rows = data.map((order) => Object.entries(order));
+  const rows = data.map((order) => {
+    const formattedOrder = {
+      id: order.id,
+      title: order.title,
+      bookingDate: order.bookingDate,
+      address: order.address
+        ? `${order.address.street}, ${order.address.city}, ${order.address.country}`
+        : null,
+      customer: order.customer
+        ? `${order.customer.name}, ${order.customer.email}, (${order.customer.phone})`
+        : null,
+    };
+    return Object.entries(formattedOrder);
+  });
 
   if (isFetching) {
     return (

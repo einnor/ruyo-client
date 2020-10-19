@@ -1,11 +1,15 @@
 import { Order as IOrder } from 'containers/Orders/store/orders.types';
 import axios from 'plugins/axios';
+import { getToken } from 'helpers';
 import Api from './Api';
 
 export default class Order {
   public static async fetchAll() {
     try {
-      const response = await axios.get('/orders');
+      const token = await getToken();
+      const response = await axios.get('/orders', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       return Api.handleResponseData(response);
     } catch (error) {
       return Api.handleResponseData(error.response);
@@ -14,7 +18,10 @@ export default class Order {
 
   public static async fetchById(id: string) {
     try {
-      const response = await axios.get(`/orders/${id}`);
+      const token = await getToken();
+      const response = await axios.get(`/orders/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       return Api.handleResponseData(response);
     } catch (error) {
       return Api.handleResponseData(error.response);
@@ -23,7 +30,10 @@ export default class Order {
 
   public static async update(id: string, order: IOrder) {
     try {
-      const response = await axios.put(`/orders/${id}`, order);
+      const token = await getToken();
+      const response = await axios.put(`/orders/${id}`, order, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       return Api.handleResponseData(response);
     } catch (error) {
       return Api.handleResponseData(error.response);
