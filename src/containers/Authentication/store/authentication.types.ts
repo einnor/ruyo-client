@@ -9,7 +9,7 @@ export type User = {
 
 export type AuthenticationState = {
   isFetching: boolean;
-  data: User;
+  data: User | null;
   token: string | null;
   uid: string | null;
   error: APIError | null;
