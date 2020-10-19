@@ -74,7 +74,7 @@ const Orders = ({
 
   useEffect(() => {
     getOrdersRequest();
-  }, []);
+  }, [getOrdersRequest]);
 
   const onToggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
@@ -82,10 +82,10 @@ const Orders = ({
     setDrawerComponent(null);
   };
 
-  const onAddOrder = () => {
-    setIsDrawerOpen(true);
-    setDrawerComponent('addOrEdit');
-  };
+  // const onAddOrder = () => {
+  //   setIsDrawerOpen(true);
+  //   setDrawerComponent('addOrEdit');
+  // };
 
   const onEditOrder = (id: string) => {
     setSelectedOrderId(id);

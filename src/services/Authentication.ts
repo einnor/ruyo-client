@@ -1,3 +1,4 @@
+/* eslint-disable no-throw-literal */
 import axios from 'plugins/axios';
 import firebase from 'services/Firebase';
 import { getToken } from 'helpers';

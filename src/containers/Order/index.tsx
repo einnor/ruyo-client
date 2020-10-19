@@ -23,12 +23,13 @@ import showAlert from 'components/Alert';
 import IGlobalState, { APIError } from 'types';
 import * as selectors from '../Orders/store/orders.selectors';
 import { getOrderRequest } from '../Orders/store/orders.actions';
-import { Order } from '../Orders/store/orders.types';
+import { Order as IOrder } from '../Orders/store/orders.types';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       display: 'flex',
+      flexDirection: 'column',
       '& > *': {
         margin: theme.spacing(1),
       },
@@ -74,7 +75,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface IProps {
   isFetching: boolean;
-  data: Order[];
+  data: IOrder[];
   error: APIError | null;
   getOrderRequest: (id: string) => void;
   match: {
@@ -99,7 +100,7 @@ const Order = ({
     if (id) {
       getOrderRequest(id);
     }
-  }, []);
+  }, [getOrderRequest, id]);
 
   if (isFetching) {
     return (

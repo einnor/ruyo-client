@@ -1,3 +1,4 @@
+/* eslint-disable no-throw-literal */
 import { AxiosResponse } from 'axios';
 
 export default class Api {

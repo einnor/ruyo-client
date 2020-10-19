@@ -51,20 +51,16 @@ const Authentication = ({
     if (uid) {
       getUserRequest(uid);
     }
-  }, [uid]);
+  }, [uid, getUserRequest]);
 
   useEffect(() => {
     if (data && uid) {
-      redirectTo('/');
+      history.push('/');
     }
-  }, [data]);
+  }, [data, history, uid]);
 
   const onSignIn = (email: string, password: string) => {
     signInRequest(email, password);
-  };
-
-  const redirectTo = (path: string) => {
-    history.push(path);
   };
 
   return (
