@@ -1,6 +1,5 @@
 import { takeLatest } from 'redux-saga/effects';
 import { call, put } from 'redux-saga/effects';
-import Api from 'services/Api';
 import Order from 'services/Order';
 import { SagaIterator } from 'redux-saga';
 import * as actions from './orders.actions';
