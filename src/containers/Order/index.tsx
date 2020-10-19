@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import {
   List,
@@ -6,6 +6,8 @@ import {
   ListItemIcon,
   ListItemText,
   Typography,
+  Drawer,
+  Button,
 } from '@material-ui/core';
 import {
   CreateOutlined,
@@ -21,9 +23,14 @@ import moment from 'moment';
 import LoadingIndicator from 'components/LoadingIndicator';
 import showAlert from 'components/Alert';
 import IGlobalState, { APIError } from 'types';
+import OrderForm from '../Orders/OrderForm';
 import * as selectors from '../Orders/store/orders.selectors';
-import { getOrderRequest } from '../Orders/store/orders.actions';
+import {
+  getOrderRequest,
+  updateOrderRequest,
+} from '../Orders/store/orders.actions';
 import { Order as IOrder } from '../Orders/store/orders.types';
+import { ScreenOrders } from 'i18n/en';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -78,6 +85,7 @@ interface IProps {
   data: IOrder[];
   error: APIError | null;
   getOrderRequest: (id: string) => void;
+  updateOrderRequest: (id: string, order: IOrder) => void;
   match: {
     params: {
       id: string;
@@ -88,12 +96,14 @@ interface IProps {
 const Order = ({
   history,
   getOrderRequest,
+  updateOrderRequest,
   isFetching,
   data,
   error,
   match,
 }: IProps & RouteComponentProps) => {
   const classes = useStyles();
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const id = match.params.id;
 
   useEffect(() => {
@@ -102,7 +112,15 @@ const Order = ({
     }
   }, [getOrderRequest, id]);
 
-  if (isFetching) {
+  const onToggleDrawer = () => {
+    setIsDrawerOpen(!isDrawerOpen);
+  };
+
+  const onUpdateOrder = (id: string, payload: IOrder) => {
+    updateOrderRequest(id, payload);
+  };
+
+  if (isFetching && !isDrawerOpen) {
     return (
       <div className={classes.loadingWrapper}>
         <LoadingIndicator />
@@ -202,12 +220,38 @@ const Order = ({
             />
           </ListItem>
         </List>
+        <Button
+          type="button"
+          variant="contained"
+          onClick={onToggleDrawer}
+          color="primary"
+          size="large"
+        >
+          {ScreenOrders.EDIT_BUTTON_LABEL}
+        </Button>
         {error &&
           showAlert({
             variant: 'error',
             message: error.message || 'Oops! Something went wrong.',
           })}
       </div>
+      <Drawer
+        open={isDrawerOpen}
+        anchor="right"
+        onClose={onToggleDrawer}
+        className="drawer"
+      >
+        <div style={{ maxWidth: 450 }}>
+          <OrderForm
+            id={order.id}
+            order={order}
+            onSave={() => {}}
+            onUpdate={onUpdateOrder}
+            isLoading={isFetching}
+            onToggleDrawer={onToggleDrawer}
+          />
+        </div>
+      </Drawer>
     </Fragment>
   );
 };
@@ -220,6 +264,7 @@ const mapStateToProps = (state: IGlobalState) => ({
 
 const mapDispatchToProps = {
   getOrderRequest,
+  updateOrderRequest,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Order));
