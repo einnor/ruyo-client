@@ -1,17 +1,9 @@
-import React, {
-  ComponentClass,
-  ElementType,
-  ReactChild,
-  ReactChildren,
-  ReactElement,
-  useState,
-} from 'react';
+import React, { ReactChild, ReactChildren, useState } from 'react';
 import {
   Container,
   AppBar,
   Toolbar,
   IconButton,
-  Button,
   Hidden,
   Avatar,
   Drawer,
@@ -32,7 +24,10 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
+import { ErrorBoundary } from 'react-error-boundary';
+
 import LogoImage from 'assets/images/logo.png';
+import ErrorFallback from 'components/ErrorFallBack';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -199,9 +194,11 @@ const MainLayout = ({ children, history }: IProps) => {
         </Hidden>
       </AppBar>
       <Container maxWidth="lg" className={classes.root}>
-        <Container maxWidth="lg" component="main" className={classes.main}>
-          {children}
-        </Container>
+        <ErrorBoundary FallbackComponent={ErrorFallback}>
+          <Container maxWidth="lg" component="main" className={classes.main}>
+            {children}
+          </Container>
+        </ErrorBoundary>
       </Container>
     </React.Fragment>
   );

@@ -32,7 +32,16 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const ErrorFallback = ({ history }: RouteComponentProps) => {
+interface IProps {
+  error: Error;
+  resetErrorBoundary: () => void;
+}
+
+const ErrorFallback = ({
+  history,
+  error,
+  resetErrorBoundary,
+}: IProps & RouteComponentProps) => {
   const classes = useStyles();
 
   const redirectTo = (path: string) => {

@@ -137,6 +137,8 @@ const Orders = ({
     // TODO
   };
 
+  console.log(data);
+
   const headers = ['id', 'title', 'bookingDate', 'address', 'customer'];
   const rows = data.map((order) => Object.entries(order));
 
