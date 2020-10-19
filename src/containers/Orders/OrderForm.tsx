@@ -69,21 +69,23 @@ const OrderForm = ({
     form: {
       title: order ? order.title : '',
       bookingDate: order ? order.bookingDate : Date.now(),
-      address: order
-        ? order.address
-        : {
-            city: '',
-            zip: '',
-            street: '',
-            country: '',
-          },
-      customer: order
-        ? order.customer
-        : {
-            email: '',
-            phone: '',
-            name: '',
-          },
+      address:
+        order && order.address
+          ? order.address
+          : {
+              city: '',
+              zip: '',
+              street: '',
+              country: '',
+            },
+      customer:
+        order && order.customer
+          ? order.customer
+          : {
+              email: '',
+              phone: '',
+              name: '',
+            },
     },
     isFormValid: false,
   });
@@ -181,13 +183,44 @@ const OrderForm = ({
           className={classes.formField}
         />
         <TextInput
-          name="address"
+          name="address.street"
           type="text"
           onChange={onChange}
-          label="Address*"
-          value={`${address.street}, (${address.zip}) ${
-            address.city
-          }, ${address.country.toUpperCase()}`}
+          label="Street*"
+          value={address.street}
+          disabled={id ? true : false}
+          validations={{ isRequired: true }}
+          validationErrors={{ isRequired: 'This field is required' }}
+          className={classes.formField}
+        />
+        <TextInput
+          name="address.city"
+          type="text"
+          onChange={onChange}
+          label="City*"
+          value={address.city}
+          disabled={id ? true : false}
+          validations={{ isRequired: true }}
+          validationErrors={{ isRequired: 'This field is required' }}
+          className={classes.formField}
+        />
+        <TextInput
+          name="address.country"
+          type="text"
+          onChange={onChange}
+          label="Country*"
+          value={address.country}
+          disabled={id ? true : false}
+          validations={{ isRequired: true }}
+          validationErrors={{ isRequired: 'This field is required' }}
+          className={classes.formField}
+        />
+        <TextInput
+          name="address.zip"
+          type="text"
+          onChange={onChange}
+          label="Zip Code*"
+          value={address.zip}
           disabled={id ? true : false}
           validations={{ isRequired: true }}
           validationErrors={{ isRequired: 'This field is required' }}

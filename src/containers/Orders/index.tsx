@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';
 import { RouteComponentProps } from 'react-router';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 import OrderForm from './OrderForm';
 import OrderDeleteForm from './DeleteOrderForm';
@@ -29,27 +30,6 @@ const useStyles = makeStyles((theme) => ({
       padding: theme.spacing(0),
       height: '100%',
     },
-  },
-  toolbar: {
-    justifyContent: 'space-between',
-  },
-  logo: {
-    width: theme.spacing(25),
-  },
-  whiteColor: {
-    color: theme.palette.primary.contrastText,
-  },
-  toolBar: {
-    width: '100%',
-  },
-  menuWrapper: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-  },
-  list: {
-    width: 250,
   },
   main: {
     margin: theme.spacing(0),
@@ -142,30 +122,19 @@ const Orders = ({
     const formattedOrder = {
       id: order.id,
       title: order.title,
-      bookingDate: order.bookingDate,
-      address: order.address
-        ? `${order.address.street}, ${order.address.city}, ${order.address.country}`
-        : null,
-      customer: order.customer
-        ? `${order.customer.name}, ${order.customer.email}, (${order.customer.phone})`
-        : null,
+      bookingDate: moment(order.bookingDate).format('DD.MM.YYYY'),
+      address: order.address ? order.address.street : null,
+      customer: order.customer ? order.customer.name : null,
     };
     return Object.entries(formattedOrder);
   });
 
-  if (isFetching) {
+  if (isFetching && !isDrawerOpen) {
     return (
       <div className={classes.loadingWrapper}>
         <LoadingIndicator />
       </div>
     );
-  }
-
-  if (error) {
-    return showAlert({
-      variant: 'error',
-      message: error.message || 'Oops! Something went wrong.',
-    });
   }
 
   return (
@@ -175,14 +144,14 @@ const Orders = ({
           {ScreenOrders.TITLE}
         </Typography>
         <Grid container spacing={3} className={classes.main}>
-          <Grid item xs={12} sm={12} md={12}>
+          <Grid item xs={12} sm={12} md={8}>
             <TabularListing
               title={ScreenOrders.TITLE}
               rows={rows}
               headers={headers}
               actions={['view', 'edit']}
               addResourceLabel={ScreenOrders.CREATE_BUTTON_LABEL}
-              addResourceCallback={onAddOrder}
+              // addResourceCallback={onAddOrder}
               onView={onViewOrder}
               onEdit={onEditOrder}
               onDelete={onDeleteOrder}
@@ -190,6 +159,11 @@ const Orders = ({
             />
           </Grid>
         </Grid>
+        {error &&
+          showAlert({
+            variant: 'error',
+            message: error.message || 'Oops! Something went wrong.',
+          })}
       </div>
       <Drawer
         open={isDrawerOpen}
@@ -203,13 +177,17 @@ const Orders = ({
               id={selectedOrderId}
               onSubmit={onDeleteOrderConfirm}
               isLoading={isFetching}
-              order={data[0]}
+              order={data.find((order) => order.id === selectedOrderId)}
               onToggleDrawer={onToggleDrawer}
             />
           ) : drawerComponent === DRAWER_COMPONENT.ADD_OR_EDIT ? (
             <OrderForm
               id={selectedOrderId}
-              order={selectedOrderId ? data[0] : undefined}
+              order={
+                selectedOrderId
+                  ? data.find((order) => order.id === selectedOrderId)
+                  : undefined
+              }
               onSave={onCreateOrder}
               onUpdate={onUpdateOrder}
               isLoading={isFetching}

@@ -67,19 +67,17 @@ const Authentication = ({
     history.push(path);
   };
 
-  if (error) {
-    return showAlert({
-      variant: 'error',
-      message: error.message || 'Oops! Something went wrong.',
-    });
-  }
-
   return (
     <Fragment>
       <div className={classes.root}>
         <Paper className={classes.form}>
           <SignInForm onSubmit={onSignIn} isLoading={isFetching} />
         </Paper>
+        {error &&
+          showAlert({
+            variant: 'error',
+            message: error.message || 'Oops! Something went wrong.',
+          })}
       </div>
     </Fragment>
   );
