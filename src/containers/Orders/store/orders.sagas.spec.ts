@@ -23,9 +23,18 @@ describe('Orders - Sagas', () => {
         {
           id: '1',
           title: 'Test',
-          bookingDate: '12/12/2020',
-          address: '86-10300, Kerugoya',
-          customer: 'John Doe',
+          bookingDate: 1554284950000,
+          address: {
+            city: 'Berlin',
+            country: 'Germany',
+            street: '"Wriezener Str. 12',
+            zip: '13055',
+          },
+          customer: {
+            email: 'john.doe@example.com',
+            phone: '0123456789',
+            name: 'John Doe',
+          },
         },
       ];
 
@@ -54,9 +63,18 @@ describe('Orders - Sagas', () => {
       const expectedResult: Order = {
         id: '1',
         title: 'Test',
-        bookingDate: '12/12/2020',
-        address: '86-10300, Kerugoya',
-        customer: 'John Doe',
+        bookingDate: 1554284950000,
+        address: {
+          city: 'Berlin',
+          country: 'Germany',
+          street: '"Wriezener Str. 12',
+          zip: '13055',
+        },
+        customer: {
+          email: 'john.doe@example.com',
+          phone: '0123456789',
+          name: 'John Doe',
+        },
       };
 
       return expectSaga(sagas.getOrderRequest, action)
@@ -80,9 +98,18 @@ describe('Orders - Sagas', () => {
     const order = {
       id: '1',
       title: 'Test - Updated',
-      bookingDate: '12/12/2020',
-      address: '86-10300, Kerugoya',
-      customer: 'John Doe',
+      bookingDate: 1554284950000,
+      address: {
+        city: 'Berlin',
+        country: 'Germany',
+        street: '"Wriezener Str. 12',
+        zip: '13055',
+      },
+      customer: {
+        email: 'john.doe@example.com',
+        phone: '0123456789',
+        name: 'John Doe',
+      },
     };
     const action: FluxStandardAction = {
       type: actions.GET_ORDER_REQUEST,

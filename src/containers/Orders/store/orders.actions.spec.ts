@@ -28,9 +28,18 @@ describe('Orders - Actions', () => {
         {
           id: '1',
           title: 'Test',
-          bookingDate: '12/12/2020',
-          address: '86-10300, Kerugoya',
-          customer: 'John Doe',
+          bookingDate: 1554284950000,
+          address: {
+            city: 'Berlin',
+            country: 'Germany',
+            street: '"Wriezener Str. 12',
+            zip: '13055',
+          },
+          customer: {
+            email: 'john.doe@example.com',
+            phone: '0123456789',
+            name: 'John Doe',
+          },
         },
       ];
       const expectedAction = {
@@ -70,9 +79,18 @@ describe('Orders - Actions', () => {
       const payload: Order = {
         id: '1',
         title: 'Test',
-        bookingDate: '12/12/2020',
-        address: '86-10300, Kerugoya',
-        customer: 'John Doe',
+        bookingDate: 1554284950000,
+        address: {
+          city: 'Berlin',
+          country: 'Germany',
+          street: '"Wriezener Str. 12',
+          zip: '13055',
+        },
+        customer: {
+          email: 'john.doe@example.com',
+          phone: '0123456789',
+          name: 'John Doe',
+        },
       };
       const expectedAction = {
         type: actions.GET_ORDER_SUCCESS,
@@ -100,10 +118,19 @@ describe('Orders - Actions', () => {
       const id = '1';
       const order = {
         id: '1',
-        title: 'Test - Updated',
-        bookingDate: '12/12/2020',
-        address: '86-10300, Kerugoya',
-        customer: 'John Doe',
+        title: 'Test',
+        bookingDate: 1554284950000,
+        address: {
+          city: 'Berlin',
+          country: 'Germany',
+          street: '"Wriezener Str. 12',
+          zip: '13055',
+        },
+        customer: {
+          email: 'john.doe@example.com',
+          phone: '0123456789',
+          name: 'John Doe',
+        },
       };
       const expectedAction = {
         type: actions.UPDATE_ORDER_REQUEST,
@@ -117,10 +144,19 @@ describe('Orders - Actions', () => {
     it('should return payload on success', () => {
       const payload: Order = {
         id: '1',
-        title: 'Test - Updated',
-        bookingDate: '12/12/2020',
-        address: '86-10300, Kerugoya',
-        customer: 'John Doe',
+        title: 'Test',
+        bookingDate: 1554284950000,
+        address: {
+          city: 'Berlin',
+          country: 'Germany',
+          street: '"Wriezener Str. 12',
+          zip: '13055',
+        },
+        customer: {
+          email: 'john.doe@example.com',
+          phone: '0123456789',
+          name: 'John Doe',
+        },
       };
       const expectedAction = {
         type: actions.UPDATE_ORDER_SUCCESS,
